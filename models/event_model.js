@@ -8,7 +8,8 @@ var eventSchema = new mongoose.Schema({
     points : { type : String},
     category: { type : String },
     date: { type : String, default : Date.now() },
-    username: { type : String }
+    username: { type : String },
+    companyId: {type : String }
 });
 
 module.exports = mongoose.model('Event', eventSchema);

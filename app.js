@@ -55,7 +55,8 @@ router.post('/event/create', eventController.createEvent)
 router.get('/users/:username', userController.getUser);
 router.get('/companies/:username', companyController.getCompany);
 router.get('/companies', companyController.listCompanies);
-
+router.get('/events/:eventId', eventController.getEvent);
+router.get('/listevents/:companyId', eventController.listEvents);
 
 app.listen(port);
 
