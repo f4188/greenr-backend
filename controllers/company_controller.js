@@ -89,55 +89,11 @@ createUser = function(req, res) {
 
 }
 
-exports.loginUser = function(req, res) {
-
-  var query
-
-    if(req.body.email)
-    query = {'email':req.body.email}
-    else if (req.body.phone)
-    query = {'phone':req.body.phone}
-    else if (req.body.username)
-    query = {'username':req.body.username}
-
-    if(!query)
-      return Utils.send(res,"error", "required fields are empty")
-
-    User.findOne(query, function(err, user) {
-      if(err) return res.send(err);
-        if(user == null) {
-          Utils.send(res,"error", "invalid username/email/phone")
-
-        }
-        else {
-          auth(user)
-        }
-    });
-
-    function auth( user ) {
-      user.verifyPassword(req.body.password,function(err, isMatched) {
-        if(err) return res.send(err)
-        if (!isMatched) {
-        Utils.send(res,"error","invalid password")
-        }
-        else {
-          res.json({"username":user.username, "status":"success"})
-        }
-      });
-    }
-
-
-}
-
 // Function to get User details when username is passed
-exports.getUser = function(req,res) {
-  User.findOne({username:req.params.username} , function(err, user) {
+exports.getCompany = function(req,res) {
+
+  Company.findOne({username:req.params.username} , function(err, company) {
     if (err) return dbError(res, err)
-    // removing password field from user object
-    if(user)
-    {
-     user.password=undefined
-    }
-    res.json(user)
+    res.json(company)
   })
 }

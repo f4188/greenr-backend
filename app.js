@@ -10,9 +10,8 @@ var express = require('express'),
     oauthController = require('./controllers/oauth_controller'),
     userController = require('./controllers/users_controller'),
     companyController = require('./controllers/company_controller'),
+    eventController = require('./controllers/event_controller'),
     ip = require('ip');
-    schedule = require('node-schedule'),
-    moment = require('moment');
 
 var port = 8086;
 
@@ -49,10 +48,12 @@ mongoose.connect('mongodb://localhost:27017/nodeAuth');
 // Signup and login requests
 router.post('/users/create', userController.createUser)
 router.post('/company/create', companyController.createCompany)
+router.post('/event/create', eventController.createEvent)
 
 
 //endpoint to get user details
-router.get('/users/:username',authController.isBearerAuthenticated, userController.getUser);
+router.get('/users/:username', userController.getUser);
+router.get('/companies/:username', companyController.getCompany);
 
 
 app.listen(port);
