@@ -37,7 +37,7 @@ exports.createUser = function(req, res) {
     // email:  emailV,
     // phone: phoneV,
     password: req.body.password,
-    company: req.body.company,
+    companyId: req.body.companyId,
     accountType: req.body.accountType,
     firstname: req.body.firstname,
     lastname: req.body.lastname,

@@ -24,7 +24,7 @@ var userSchema = new Schema({
     category: String,
     accountType: String,
     date: {type: Date, default: Date.now},
-    company: String,
+    companyId: String,
     // key
     profile_pic: [],
     images: [],

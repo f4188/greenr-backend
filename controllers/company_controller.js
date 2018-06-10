@@ -10,7 +10,6 @@ const saltRounds = 10;
 
 exports.createCompany = function(req, res) {
     var company = new Company(); // creating a new video object
-
     // initialising the objects params got from the request body
     company.name = req.body.companyName;
     company.logo = req.body.companyLogo;
@@ -19,15 +18,15 @@ exports.createCompany = function(req, res) {
 
     // saving video on to the db
     company.save(function(error) {
-      console.log("hello")
+      console.log(company._id)
         if (error) {
             return res.json({ success : false, status : error }); // every json response will have these 2 fields
         }
-        createUser(req, res);
+        createUser(req, res, company._id);
     });
 }
 
-createUser = function(req, res) {
+createUser = function(req, res, companyId) {
 
     // var EmailV, phoneV, field, value
   	console.log("lai le")
@@ -54,7 +53,7 @@ createUser = function(req, res) {
     // email:  emailV,
     // phone: phoneV,
     password: req.body.password,
-    company: req.body.companyName,
+    companyId,
     accountType: req.body.accountType,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -101,10 +100,6 @@ exports.getCompany = function(req,res) {
 exports.listCompanies = (req,res) => {
   Company.find({}, (err, companies) => {
       if (err) return dbError(res, err)
-      var companyNames = companies.map( (company) => {
-        return company.name;
-      })
-
-      res.json({ names : companyNames});
+      res.json(companies);
   })
 }

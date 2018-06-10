@@ -11,6 +11,7 @@ var express = require('express'),
     userController = require('./controllers/users_controller'),
     companyController = require('./controllers/company_controller'),
     eventController = require('./controllers/event_controller'),
+    mailController = require('./controllers/mail_controller'),
     ip = require('ip');
 
 var port = 8086;
@@ -49,7 +50,7 @@ mongoose.connect('mongodb://localhost:27017/nodeAuth');
 router.post('/users/create', userController.createUser)
 router.post('/company/create', companyController.createCompany)
 router.post('/event/create', eventController.createEvent)
-
+//router.post('/mail', mailController.sendMailToUser)
 
 //endpoint to get user details
 router.get('/users/:username', userController.getUser);

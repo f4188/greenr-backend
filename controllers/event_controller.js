@@ -1,3 +1,6 @@
+var mailController = require('./mail_controller')
+var User = require("../models/users_model.js")
+
 var Event = require('../models/event_model');
 
 exports.createEvent = function(req, res) {
@@ -18,8 +21,14 @@ exports.createEvent = function(req, res) {
         if (error) {
             return res.json({ success : false, status : error }); // every json response will have these 2 fields
         }
-        res.json({ success : true, status : event }); // sending video data for response as of now
-    });
+        User.find({companyId:event.companyId}, (err, users) => {
+            users.forEach(user => {
+                mailController.sendMailToUser(user,event)
+            })
+            res.json({ success : true, status : event }); // sending video data for response as of now
+        })
+    });     
+    
 }
 
 // Function to get User details when username is passed
@@ -36,3 +45,4 @@ exports.listEvents = (req,res) => {
       res.json(events);
   })
 }
+
