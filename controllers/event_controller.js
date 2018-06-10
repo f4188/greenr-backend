@@ -14,7 +14,7 @@ exports.createEvent = function(req, res) {
     event.category = req.body.category;
     event.date = req.body.date;
     event.username = req.body.username;
-    event.companyId = req.body.companyId;
+    event.companyId = '5b1d71a3f968da383d5e852b';
     console.log(req.body)
     // saving video on to the db
     event.save(function(error) {
