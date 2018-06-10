@@ -14,10 +14,10 @@ module.exports.sendMailToUser = function(user, event) {
         to: user.username, 
         subject: event.name, 
         html: '<b> Event Name: '+ event.name +'</b> <br/> \
-            <b> Event Description'+ event.description +'</b><br/> \
-            <b Event Date & Time>'+ event.date +'</b><br/> \
-            <b Event Category>'+ event.category +'</b><br/> \
-            <b Event Points>'+ event.points +'</b>', 
+            <b> Event Description: '+ event.description +'</b><br/> \
+            <b> Event Date & Time: '+ event.date +'</b><br/> \
+            <b> Event Category: '+ event.category +'</b><br/> \
+            <button> Signup for Event </button>', 
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
