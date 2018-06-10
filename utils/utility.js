@@ -37,11 +37,12 @@ var send = function (res, status, message) {
 var isUnique = function (type, value, callback) {
   var query;
   query = {type:value}
-
+  console.log(query)
   User.findOne(query,  function(err, result) {
     if (err) return callback(err);
     else
     {
+      console.log(result)
     return callback(err,result)
     }
   })
