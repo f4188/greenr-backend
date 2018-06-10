@@ -42,7 +42,7 @@ exports.createUser = function(req, res) {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     });
-
+    console.log(req.body)
     Utils.isUnique("username", req.body.username, function (err, result) {
       if (err) return Utils.db_error(res);
 

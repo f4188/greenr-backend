@@ -11,12 +11,11 @@ const saltRounds = 10;
 exports.createCompany = function(req, res) {
     var company = new Company(); // creating a new video object
     // initialising the objects params got from the request body
-    console.log(req)
     company.name = req.body.companyName;
     company.logo = req.body.companyLogo;
     company.website = req.body.companyWebsite;
     company.username = req.body.username;
-
+    console.log(req.body)
     // saving video on to the db
     company.save(function(error) {
       console.log(company._id)
