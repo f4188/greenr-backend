@@ -97,3 +97,14 @@ exports.getCompany = function(req,res) {
     res.json(company)
   })
 }
+
+exports.listCompanies = (req,res) => {
+  Company.find({}, (err, companies) => {
+      if (err) return dbError(res, err)
+      var companyNames = companies.map( (company) => {
+        return company.name;
+      })
+
+      res.json({ names : companyNames});
+  })
+}

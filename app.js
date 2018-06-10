@@ -54,6 +54,7 @@ router.post('/event/create', eventController.createEvent)
 //endpoint to get user details
 router.get('/users/:username', userController.getUser);
 router.get('/companies/:username', companyController.getCompany);
+router.get('/companies', companyController.listCompanies);
 
 
 app.listen(port);
