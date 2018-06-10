@@ -1,5 +1,4 @@
 var User = require("./../models/users_model.js")
-const privateBucket = "private";
 
 var uid = function(len) {
   var buf = []
@@ -49,33 +48,7 @@ var isUnique = function (type, value, callback) {
 
 }
 
-// dynamically generated policy for private bucket based on username
-function getPrivateBucketPolicy(username) {
-    return '{\"Version\":\"2012-10-17\",\"Statement\": [{\"Sid\": \"AllowGroupToSeeBucketListInTheConsole\",\"Action\": [ \"s3:GetBucketLocation\" ],\"Effect\": \"Deny\",\"Resource\": [ \"arn:aws:s3:::*\"  ]},{\"Sid\": \"AllowRootLevelListingOfTheBucket\",\"Action\": [\"s3:ListBucket\"],\"Effect\": \"Deny\",\"Resource\": [\"arn:aws:s3:::istarvr\"],\"Condition\":{ \"StringEquals\":{\"s3:prefix\":[\"\"], \"s3:delimiter\":[\"\/\"]}}},{\"Sid\": \"AllowListBucketOfASpecificUserPrefix\",\"Action\": [\"s3:ListBucket\"],\"Effect\": \"Allow\",\"Resource\": [\"arn:aws:s3:::istarvr\"],\"Condition\":{  \"StringLike\":{\"s3:prefix\":[\"' + username + '\/*\"] }}},{\"Sid\": \"AllowUserSpecificActionsOnlyInTheSpecificUserPrefix\",\"Effect\":\"Allow\",\"Action\":[\"s3:PutObject\",\"s3:GetObject\",\"s3:GetObjectVersion\",\"s3:DeleteObject\",\"s3:DeleteObjectVersion\"],\"Resource\":\"arn:aws:s3:::istarvr\/'+ username +'\/*\"}]}';
-}
-
-// dynamically generated policy for public bucket based on username
-function getPublicBucketPolicy(username) {
-    return "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AllowUserToSeeBucketListInTheConsole\",\"Action\":[\"s3:ListAllMyBuckets\",\"s3:GetBucketLocation\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::*\"]},{\"Sid\":\"AllowRootAndHomeListingOfCompanyBucket\",\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::publicistarvr\"],\"Condition\":{\"StringEquals\":{\"s3:prefix\":[\"\",\"" + username +"\/\"],\"s3:delimiter\":[\"\/\"]}}},{\"Sid\":\"AllowListingOfUserFolder\",\"Action\":[\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::publicistarvr\"],\"Condition\":{\"StringLike\":{\"s3:prefix\":[\"" + username +"\/*\"]}}},{\"Sid\":\"AllowAllS3ActionsInUserFolder\",\"Effect\":\"Allow\",\"Action\":[\"s3:*\"],\"Resource\":[\"arn:aws:s3:::publicistarvr\/" + username + "\/*\"]},{\"Sid\":\"ReadOnlyAllS3ActionsInUserFolder\",\"Effect\":\"Allow\",\"Action\":[\"s3: GetObject\",\"s3:ListBucket\"],\"NotResource\":[\"arn:aws:s3:::publicistarvr\/" + username + "\/*\"]}]}";
-}
-
-function getThumbnailBucketPolicy() {
-  return "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"AddPerm\",\"Effect\":\"Allow\",\"Action\":[\"s3:*\"],\"Resource\":[\"arn:aws:s3:::istarvrthumbnails/*\"]}]}";
-}
-
-// getting a private/public policy based on the front-end request
-var generatePolicyBasedOnType = function(username, typeOfBucket) {
-    if (typeOfBucket === privateBucket) {
-      return getPrivateBucketPolicy(username);
-    } else if (typeOfBucket === "thumbnail") {
-      return getThumbnailBucketPolicy();
-    } else {
-      return getPublicBucketPolicy(username);
-    }
-}
-
 module.exports.db_error = db_error
 module.exports.send = send
 module.exports.isUnique = isUnique
 module.exports.uid = uid
-module.exports.generatePolicyBasedOnType = generatePolicyBasedOnType;
