@@ -10,10 +10,14 @@ var userModel = new UserModel(); // helper object to access encrypt function
 // using the basic strategy from passport which verifies the username and password credentials
 passport.use(new BasicStrategy(function(username, password, callback) {
 
+    //console.log('basic:', username, password)
+
     // Querying the database to find the username, here username is basically emailid
     UserModel.findOne({ username : username }, function(error, user) {
 
         // indicates some internal error while Querying
+        //console.log(error)
+        //console.log(user)
         if (error) { return callback(error); }
 
         // indicated the user is not found, hence return false
@@ -56,6 +60,11 @@ passport.use('client-basic', new BasicStrategy(function(username, password, call
         return callback(null, client);
     });
 }));
+
+passport.use(new ClientPasswordStrategy(function(clientId, clientSecret, callback) {
+
+  //  ClientModel
+}))
 
 // Bearer strategy to authenticate users based on a access token
 passport.use(new BearerStrategy(function(accessToken, done) {

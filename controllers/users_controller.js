@@ -5,10 +5,7 @@ var Token = require("../models/token_model.js")
 var Utils = require("../utils/utility.js")
 bcrypt = require('bcrypt');
 
-
-
 const saltRounds = 10;
-
 
 exports.createUser = function(req, res) {
 
@@ -42,37 +39,36 @@ exports.createUser = function(req, res) {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     });
-    console.log(req.body.password)
-    console.log(req.body)
+    //console.log(req.body.password)
+    //console.log(req.body)
     Utils.isUnique("username", req.body.username, function (err, result) {
       if (err) return Utils.db_error(res);
 
       if(!result) {
 
-      user.save(function(err) {
+        user.save(function(err) {
 
-      if (err) {
-      var duplicateKey = 11000
-      if (err.code == duplicateKey){
-        return Utils.send(res, "error", "user already exists")
-      }
+          if (err) {
+            var duplicateKey = 11000
+            if (err.code == duplicateKey){
+              return Utils.send(res, "error", "user already exists")
+            }
 
-      return Utils.db_error(res,err)
-      }
-      else
-      Utils.send(res,"success", "user created successfully")
+            return Utils.db_error(res,err)
+          } else {
+            console.log('user created')
+            Utils.send(res,"success", "user created successfully")
+          }
 
-      });
+        });
 
-      }
-      else {
+      } else {
         Utils.send(res,"error", "email/phone already exists")
       }
 
   })
 
 }
-
 
 exports.loginUser = function(req, res) {
 
@@ -111,7 +107,6 @@ exports.loginUser = function(req, res) {
       });
     }
 
-
 }
 
 // Function to get User details when username is passed
@@ -125,4 +120,18 @@ exports.getUser = function(req,res) {
     }
     res.json(user)
   })
+}
+
+exports.getAllUsers = function(req, res) {
+
+  User.find({}, function(err, users) {
+
+    let userMap = {}
+    users.forEach(function(user) {
+      userMap[user._id] = user
+    })
+
+    res.send(userMap)
+
+  }) 
 }

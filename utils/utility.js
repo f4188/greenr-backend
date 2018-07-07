@@ -33,7 +33,6 @@ var send = function (res, status, message) {
 	return res.json({status:status, message:message})
 }
 
-
 var isUnique = function (type, value, callback) {
   var query;
   console.log(type)
@@ -41,12 +40,12 @@ var isUnique = function (type, value, callback) {
   query = {"username":value}
   console.log(query)
   User.findOne(query,  function(err, result) {
-    if (err) return callback(err);
-    else
-    {
-      console.log
-    return callback(err,result)
-    }
+    
+    if(err) 
+      return callback(err);
+    else 
+      return callback(err,result)
+    
   })
 
 }
